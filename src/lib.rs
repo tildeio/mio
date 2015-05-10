@@ -75,11 +75,20 @@
 //! ```
 
 #![crate_name = "mio"]
-#![deny(warnings)]
+#![cfg_attr(unix, deny(warnings))]
+#![cfg_attr(windows, allow(dead_code))]
 
 extern crate bytes;
-extern crate nix;
 extern crate clock_ticks;
+
+#[cfg(unix)]
+extern crate nix;
+
+#[cfg(windows)]
+extern crate winapi;
+
+#[cfg(windows)]
+extern crate kernel32;
 
 #[macro_use]
 extern crate log;

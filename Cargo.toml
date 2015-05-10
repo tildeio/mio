@@ -28,6 +28,9 @@ git = "https://github.com/carllerche/nix-rust"
 [dependencies.winapi]
 git = "https://github.com/retep998/winapi-rs"
 
+[dependencies.kernel32-sys]
+git = "https://github.com/retep998/winapi-rs"
+
 [dev-dependencies]
 env_logger = "0.3.0"
 tempdir    = "0.3.4"
