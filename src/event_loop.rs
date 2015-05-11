@@ -358,13 +358,13 @@ impl<M: Send> Sender<M> {
 }
 
 #[cfg(test)]
-mod tests {
-    use std::str;
+#[cfg(unix)]
+mod test {
     use std::sync::Arc;
     use std::sync::atomic::AtomicIsize;
     use std::sync::atomic::Ordering::SeqCst;
     use super::EventLoop;
-    use {buf, unix, Buf, Handler, Token, TryRead, TryWrite, ReadHint};
+    use {Handler, Token, ReadHint};
 
     #[test]
     pub fn test_event_loop_size() {
@@ -403,6 +403,9 @@ mod tests {
 
     #[test]
     pub fn test_readable() {
+        use {buf, Buf, unix, TryRead, TryWrite};
+        use std::str;
+
         let mut event_loop = EventLoop::new().ok().expect("Couldn't make event loop");
 
         let (mut reader, mut writer) = unix::pipe().unwrap();

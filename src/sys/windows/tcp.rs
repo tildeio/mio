@@ -1,18 +1,41 @@
 use {io, Evented, Interest, PollOpt, Selector, Token, TryRead, TryWrite};
+use sys::windows::api;
 use std::net::SocketAddr;
+use std::ptr;
 
 #[derive(Debug)]
-pub struct TcpSocket;
+pub struct TcpSocket {
+    sock: api::SOCKET,
+}
 
 impl TcpSocket {
     /// Returns a new, unbound, non-blocking, IPv4 socket
     pub fn v4() -> io::Result<TcpSocket> {
-        unimplemented!();
+        TcpSocket::new(api::AF_INET)
     }
 
     /// Returns a new, unbound, non-blocking, IPv6 socket
     pub fn v6() -> io::Result<TcpSocket> {
-        unimplemented!();
+        TcpSocket::new(api::AF_INET6)
+    }
+
+    fn new(family: api::c_int) -> io::Result<TcpSocket> {
+        // Ensure that winsock is initialized
+        api::init();
+
+        let sock = api::WSASocket(
+            family,
+            api::SOCK_STREAM,
+            api::IPPROTO_TCP,
+            ptr::null_mut(),
+            0,
+            api::WSA_FLAG_OVERLAPPED);
+
+        if sock == api::INVALID_SOCKET {
+            return Err(io::Error::last_os_error());
+        }
+
+        Ok(TcpSocket { sock: sock })
     }
 
     pub fn connect(&self, addr: &SocketAddr) -> io::Result<bool> {
