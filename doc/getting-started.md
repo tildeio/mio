@@ -144,7 +144,7 @@ calling `event_loop.run` passing a mutable reference to our handler. The
 However, before the event loop is started, it must be set up to do some
 work. In this case, the pingpong server socket is registered with the
 event loop. The constant `SERVER` token is used when registering the
-socket. Whenever a connection is ready to be aceepted, the event loop
+socket. Whenever a connection is ready to be accepted, the event loop
 will call the handler's `readable` function passing in the `SERVER`
 token. This is how we are able to know, in the handler, which sockets
 are ready to be operated on.
