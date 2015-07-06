@@ -25,7 +25,8 @@ bytes = "0.2.9"
 slab  = "0.1.0"
 
 [dependencies.nix]
-git = "https://github.com/carllerche/nix-rust"
+git = "https://github.com/tildeio/nix-rust"
+branch = "skylight"
 
 [dev-dependencies]
 env_logger = "0.3.0"
